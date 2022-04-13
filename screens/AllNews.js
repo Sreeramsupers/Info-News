@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import {
 	Text,
@@ -13,6 +13,7 @@ import {
 	Alert,
 } from 'react-native';
 import Header from '../components/Header';
+
 import axios from 'axios';
 
 const BASE_URL = 'https://saurav.tech/NewsAPI/';
@@ -22,28 +23,34 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default function AllNews({ navigation }) {
 	const [news, setNews] = React.useState([]);
-	const [countryCode, setCountryCode] = React.useState('in');
+	const [countryCode, setCountryCode] = React.useState(null);
 
 	const getSettings = async () => {
 		const countryOption = JSON.parse(await AsyncStorage.getItem('Country'));
 
 		if (countryOption) {
 			setCountryCode(countryOption.code);
-			console.log(countryOption.code);
+			// console.log(countryOption.code);
 		}
 	};
-
 	useEffect(() => {
-		navigation.addListener('focus', async () => {
-			axios
-				.get(`${BASE_URL}/top-headlines/category/general/${countryCode}.json'`)
-				.then((res) => res.json())
-				.then((response) => {
-					setNews(response.articles);
-				})
-				.catch((error) => Alert.alert(error));
-		});
+		getSettings();
+		return () => {};
 	}, []);
+
+	useFocusEffect(() => {
+		fetch(`${BASE_URL}/top-headlines/category/general/${countryCode}.json`)
+			.then((res) => res.json())
+			.then((response) => {
+				setNews(response.articles);
+				// console.log(response.articles);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+
+		return () => {};
+	});
 
 	const showBackButton = true;
 	return (
