@@ -23,7 +23,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default function AllNews({ navigation }) {
 	const [news, setNews] = React.useState([]);
-	const [countryCode, setCountryCode] = React.useState(null);
+	const [countryCode, setCountryCode] = React.useState('in');
 
 	const getSettings = async () => {
 		const countryOption = JSON.parse(await AsyncStorage.getItem('Country'));
