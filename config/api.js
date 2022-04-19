@@ -4,6 +4,7 @@ export const categories = [
 		pic: 'https://img.icons8.com/fluent/96/000000/news.png',
 		name: 'general',
 	},
+
 	{
 		code: '',
 		pic: 'https://img.icons8.com/fluent/96/000000/hard-working.png',

@@ -39,7 +39,7 @@ export default class HomeNews extends Component {
 					<ActivityIndicator style={styles.loader} size='large' color='black' />
 				) : (
 					<View>
-						<Text style={styles.heading}>News For You</Text>
+						<Text style={styles.heading}>Breaking News In India</Text>
 						{this.state.news.slice(0, 40).map((news, index) => (
 							<TouchableOpacity
 								key={index}
